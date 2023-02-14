@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                         return
                     }
 
-                    dddd
+
 
                     response.body()?.let{
                         Log.d(TAG,it.toString())
