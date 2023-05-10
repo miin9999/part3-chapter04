@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
 
         setContentView(binding.root)
-        initbookRecyclerView()
+        initBookRecyclerView()
 
 
 
@@ -50,8 +50,6 @@ class MainActivity : AppCompatActivity() {
                         return
                     }
 
-
-
                     response.body()?.let{
                         Log.d(TAG,it.toString())
 
@@ -59,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                             Log.d(TAG,book.toString())
                         }
                         adapter.submitList(it.books) // submitList : 리스트가 이것으로 체인지됨
-                        // BookAdapter 안에서 currentList가 book으로 대체된다는 뜻
+                        // BookAdapter 안에서 currentList가 booklist로 대체된다는 뜻
 
                     }
                 }
@@ -73,7 +71,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun initbookRecyclerView(){
+    fun initBookRecyclerView(){
         adapter = BookAdapter()
         binding.bookRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.bookRecyclerView.adapter = adapter
