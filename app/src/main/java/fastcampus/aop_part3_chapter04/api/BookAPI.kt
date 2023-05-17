@@ -15,5 +15,4 @@ interface BookAPI {
         @Query("query") keyword: String
     ): Call<SearchBooksDto>
 
-
 }

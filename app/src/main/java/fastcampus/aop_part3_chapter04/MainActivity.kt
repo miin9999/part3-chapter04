@@ -3,6 +3,8 @@ package fastcampus.aop_part3_chapter04
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
+import android.view.MotionEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import fastcampus.aop_part3_chapter04.adapter.BookAdapter
 import fastcampus.aop_part3_chapter04.api.BookAPI
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
     private lateinit var adapter : BookAdapter
+    private lateinit var bookService: BookAPI
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,9 +40,9 @@ class MainActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val bookService = retrofit.create(BookAPI::class.java)
+        bookService = retrofit.create(BookAPI::class.java)
 
-        bookService.getBooksByName("EE29yHWSCmCGhREiVgco","DH6VFtsHdD",
+        bookService.getBooksByName("EE29yHWSCmCGhREiVgco",getString(R.string.interParkAPIKey),
         "toeic")
             .enqueue(object : Callback<SearchBooksDto>{
                 override fun onResponse(
@@ -66,6 +69,22 @@ class MainActivity : AppCompatActivity() {
                     Log.e(TAG,t.toString()) // 실패시 t로 들어옴
                 }
             })
+
+
+        binding.searchEditText.setOnKeyListener { v, keyCode, event ->
+            if(keyCode == KeyEvent.KEYCODE_ENTER && event.action == MotionEvent.ACTION_DOWN){
+                search(binding.searchEditText.text.toString())
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
+        }
+
+
+    }
+
+    private fun search(keyword:String){
+        // 이 함수는 API를 찔러야 함, 즉 bookService
+        bookService.getBooksByName("EE29yHWSCmCGhREiVgco",getString(R.string.interParkAPIKey), keyword)
 
 
     }
